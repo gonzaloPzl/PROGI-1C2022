@@ -1,7 +1,7 @@
 /* 
 A N A L I S I S
 
-entradas: salario, ingresos_autonomos, valor_bienes, precio_bienes_servicios
+entradas: ingresos_mensuales, valor_bienes, precio_bienes_servicios
 
 procesos: Usuario ingresa si es empleado en relación de dependencia o autonomo
 dependiendo eso se va a calcular retenciones al trabajador o aporte de autonomos.
@@ -40,6 +40,13 @@ salidas: retenciones trabajadores, aportes autonomos, bienes personales,
 ganancias, iva, Impuesto maximo, Impuesto minimo. 
 
 P R U E B A S  D E  E S C R I T O R I O
+ingreso mensual | valor bienes | val bienes y servicios | reten aportes tra | imp auto | ganancias| bines per | total
+      0         |      0       |         0              |        0          |    0     |    0     |     0     |   0 
+    96542       |   8432432    |      634000            |     196945        |    0     |    0     |   60574   | 257509
+      0         |      0       |         0              |        0          |    0     |    0     |     0     |   0
+    230523      |    6700432   |      743234            |        0          |  140668  |  215310  |   43254   | 399232
+      0         |      0       |         0              |        0          |    0     |    0     |     0     |   0
+    123000      |   2783950    |      525000            |        0          |  98467   |  86182   |     0     | 709650
 
 */
 
@@ -156,13 +163,9 @@ public class PROG1_2022_ACT1_POZZOLI_GONZALO {
     return Math.round(total_impuesto*100.0)/100.0;
   }
   public static void main (String [] args) {
-    System.out.println("Ingrese el valor de sus bienes");
     Scanner leer = new Scanner(System.in);
-    // double ganancia_mensual = leer.nextDouble();
-    //double retencion_aportes_trabajador = calc_imp_reten(salario);
-    //double aporte_autonomos = calc_imp_auto(ingreso_autonomo);
-    // double bienes_personales = calc_bienes_personales(valor_bienes);
-    // double ganancias = calc_ganancias(ganancia_mensual);
+
+    // Declaración de vairables
     int menu = 1; // iniciamos el controlador del ciclo del menu
     int opcion = -1;  // iniciamos la variable que controla la validación de las opciones
     double imp_acum = 0;
@@ -170,6 +173,8 @@ public class PROG1_2022_ACT1_POZZOLI_GONZALO {
     double imp_ganancias = 0;
     double reten_aportes_trabajadores = 0;
     double imp_aportes_autonomo = 0;
+    double imp_bienes_personales = 0;
+    double imp_IVA = 0;
     double bienes_personales = 0;
     double valor_bienes_serivicios = 0;
     double imp_max = 0;
@@ -236,7 +241,7 @@ public class PROG1_2022_ACT1_POZZOLI_GONZALO {
             }
           }
           if (bienes_personales > 3000000) { // validamos el pago del impuesto
-            double imp_bienes_personales = calc_bienes_personales(bienes_personales);
+            imp_bienes_personales = calc_bienes_personales(bienes_personales);
             imp_acum += imp_bienes_personales;
             if (imp_bienes_personales < imp_min) {
               imp_min = imp_bienes_personales;
@@ -254,8 +259,8 @@ public class PROG1_2022_ACT1_POZZOLI_GONZALO {
               System.out.println("Ingrese el precio total de los productos");
             }
           }
-          double imp_IVA = calc_IVA(valor_bienes_serivicios);
-          imp_acum += valor_bienes_serivicios;
+          imp_IVA = calc_IVA(valor_bienes_serivicios);
+          imp_acum += imp_IVA;
           if (imp_IVA < imp_min) {
             imp_min = imp_IVA;
           }
@@ -275,7 +280,7 @@ public class PROG1_2022_ACT1_POZZOLI_GONZALO {
             System.out.println("El total del Impuesto a las ganancias pagado en el año es $" + imp_ganancias);
           }
           if (bienes_personales > 0) {
-            System.out.println("El total del Impuesto a los bienes personales pagado en el año es $" + bienes_personales);
+            System.out.println("El total del Impuesto a los bienes personales pagado en el año es $" + imp_bienes_personales);
           }
 
           System.out.println("El valor de los impuestos totales pagados en el año es de $" + imp_acum);
