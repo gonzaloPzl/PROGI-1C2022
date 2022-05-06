@@ -283,7 +283,7 @@ public class PROG1_2022_ACT1_POZZOLI_GONZALO {
             System.out.println("El total del Impuesto a los bienes personales pagado en el año es $" + imp_bienes_personales);
           }
 
-          System.out.println("El valor de los impuestos totales pagados en el año es de $" + imp_acum);
+          System.out.println("El valor de los impuestos totales pagados en el año es de $" + Math.round(imp_acum*100.0)/100.0);
           System.out.println("El importe del impuesto mas alto es de $" + imp_max );
           System.out.println("El importe del impuesto mas bajo es de $" + imp_min );
 
