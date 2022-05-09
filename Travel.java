@@ -1,4 +1,7 @@
 /* A N A L I S I S 
+
+EJERCICIO 2.2
+
 📥 Entradas: 
     - Numero de pedido
     - Agencia (1 o 2)
