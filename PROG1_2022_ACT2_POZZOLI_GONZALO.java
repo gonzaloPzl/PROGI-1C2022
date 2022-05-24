@@ -178,12 +178,13 @@ class PROG1_2022_ACT2_POZZOLI_GONZALO {
   public static void menu () {
     Scanner in = new Scanner(System.in);
     int trabajo = -1; // vale 1 si es autonomo y 2 si es empleado
+    String menu = "S";
     double valor_bienes = 0.00; 
     double ingresos_mensuales = 0.00;
     double precio_bienes_servicios = 0.00;
     System.out.println("Calculadora de impuestos nacionales");
     System.out.println("**************************************");
-    while(trabajo != 1 && trabajo != 2) {
+    while(menu.equals("S")) {
       System.out.println("Primero debemos saber si sos autonomo o empleado: ");
       // Entramos al while para saber si es empleado o autonomo
       while (trabajo != 1 && trabajo != 2) {
@@ -219,12 +220,28 @@ class PROG1_2022_ACT2_POZZOLI_GONZALO {
         }
       }
 
+      // Ejecutamos el procedimiento de mostrar_resultados para visualizar los impuestos
+      // Le pasamos los resultados de la ejecución de las funciones como parámetros
+      mostrar_resultados(trabajo, ingresos_mensuales, valor_bienes, precio_bienes_servicios);
+      menu = "A"; // establecemos el valor en A para que entre al while
+      while(!(menu.equals("S")) && !(menu.equals("N"))) {
+        System.out.println("Desea realizar otro calculo? S/N");
+        menu = in.next();
+        if (menu.equals("S")){ // si se desea continuar se resetean las variables
+          trabajo = -1; 
+          menu = "S";
+          valor_bienes = 0.00; 
+          ingresos_mensuales = 0.00;
+          precio_bienes_servicios = 0.00;
+        }
+        if(!(menu.equals("S")) && !(menu.equals("N"))) {
+          System.out.println("El valor ingresado es invalido, ingrese 'S' si desa continuar o 'N' si no");
+        }
+      }
+
 
     }
 
-    // Ejecutamos el procedimiento de mostrar_resultados para visualizar los impuestos
-    // Le pasamos los resultados de la ejecución de las funciones como parámetros
-    mostrar_resultados(trabajo, ingresos_mensuales, valor_bienes, precio_bienes_servicios);
   }
   public static void main (String[]args) {
     // Ejecutamos el procedimiento de menu
