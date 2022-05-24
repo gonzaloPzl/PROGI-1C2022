@@ -29,6 +29,14 @@ procesos:
 
 salida: imp_ganancias, retencion_aportes, aporte_autonomos, imp_bienes_personales, imp_iva
 
+P R U E B A  D E  E S C R I T O R I O
+ingreso mensual | valor bienes | val bienes y servicios | reten aportes tra | imp auto | ganancias| bines per | total
+      0         |      0       |         0              |        0          |    0     |    0     |     0     |   0 
+    96542       |   8432432    |      634000            |     196945        |    0     |    0     |   60574   | 257509
+      0         |      0       |         0              |        0          |    0     |    0     |     0     |   0
+    230523      |    6700432   |      743234            |        0          |  140668  |  215310  |   43254   | 399232
+      0         |      0       |         0              |        0          |    0     |    0     |     0     |   0
+    123000      |   2783950    |      525000            |        0          |  98467   |  86182   |     0     | 709650
 */
 
 import java.util.Scanner;
@@ -141,32 +149,52 @@ class PROG1_2022_ACT2_POZZOLI_GONZALO {
 
   // Procedimiento para mostrar los resultados
   public static void mostrar_resultados (int trabajo, double ingresos_mensuales, double valor_bienes, double precio_bienes_servicios) {
+    double imp_acum = 0.00;
+    // Le asignamos a las variables el valor del resultado de la ejecución de las funciones
+    // con parámetros que nos van a venir del menu
+    double imp_bienes = imp_bienes_personales(valor_bienes);
+    double imp_ganancias = imp_ganancias(ingresos_mensuales);
+    double imp_iva = iva(precio_bienes_servicios);
+    
     if (trabajo == 1) { // Significa que tenemos que seguir un procedimiento para autonomos
-      double imp_a_autonomos = imp_a_autonomos(ingresos_mensuales); 
+      double imp_a_autonomos = imp_a_autonomos(ingresos_mensuales);
+      System.out.println("El impuesto por autonomo es $" + imp_a_autonomos);
+      imp_acum += imp_a_autonomos;
+    } else if (trabajo == 2) {
+      double retenciones = retenciones(ingresos_mensuales);
+      System.out.println("Las retenciones cobradas son $" + retenciones);
+      imp_acum += retenciones;
     }
+    System.out.println("El impuesto sobre bienes personales es $" + imp_bienes);
+    imp_acum += imp_bienes; // Aumento el acumulador de impuestos
+    System.out.println("El impuesto a las ganancias es $" + imp_ganancias);
+    imp_acum += imp_ganancias;
+    System.out.println("El impuesto al valor agregado es $" + imp_iva);
+    imp_acum += imp_iva;
+    System.out.println("El monto total de impuestos a pagar es $" + imp_acum);
+    
   }
   
-  public static void menu (String[] args) {
+  public static void menu () {
     Scanner in = new Scanner(System.in);
-    int menu = -1;
     int trabajo = -1; // vale 1 si es autonomo y 2 si es empleado
     double valor_bienes = 0.00; 
     double ingresos_mensuales = 0.00;
     double precio_bienes_servicios = 0.00;
     System.out.println("Calculadora de impuestos nacionales");
     System.out.println("**************************************");
-    while(menu != -1) {
+    while(trabajo != 1 && trabajo != 2) {
       System.out.println("Primero debemos saber si sos autonomo o empleado: ");
       // Entramos al while para saber si es empleado o autonomo
-      while (trabajo != 1 || trabajo != 2) {
+      while (trabajo != 1 && trabajo != 2) {
         System.out.println("1. Autonomo \n2. Empleado en relación de depencia");
         trabajo = in.nextInt();
-        if (trabajo != 1 || trabajo != 2) {
+        if (trabajo != 1 && trabajo != 2) {
           System.out.println("El valor ingresado es invalido, ingrese uno correcto");
         }
       }
       // Salimos del while, pedimos el ingreso mensual
-      while (ingresos_mensuales < 0) {
+      while (ingresos_mensuales <= 0) {
         System.out.println("Introduzca sus ingresos mensuales ya sea salario o ingresos autonomos");
         ingresos_mensuales = in.nextDouble();
         if (ingresos_mensuales < 0) {
@@ -175,7 +203,7 @@ class PROG1_2022_ACT2_POZZOLI_GONZALO {
       }
 
       // Salimos del while de ingresos y entramos al ingreso de valores de bienes
-      while (valor_bienes < 0) {
+      while (valor_bienes <= 0) {
         System.out.println("Introduzca el valor de sus bienes");
         valor_bienes = in.nextDouble();
         if(valor_bienes < 0) {
@@ -183,7 +211,7 @@ class PROG1_2022_ACT2_POZZOLI_GONZALO {
         }
       }
       // Salimos del while de bienes y entramos al ultimo ingreso
-      while (precio_bienes_servicios < 0) {
+      while (precio_bienes_servicios <= 0) {
         System.out.println("Ingrese el valor de los bienes y servicios adquiridos en el año");
         precio_bienes_servicios = in.nextDouble();
         if (precio_bienes_servicios < 0) {
@@ -193,13 +221,14 @@ class PROG1_2022_ACT2_POZZOLI_GONZALO {
 
 
     }
+
+    // Ejecutamos el procedimiento de mostrar_resultados para visualizar los impuestos
+    // Le pasamos los resultados de la ejecución de las funciones como parámetros
+    mostrar_resultados(trabajo, ingresos_mensuales, valor_bienes, precio_bienes_servicios);
   }
   public static void main (String[]args) {
-    double imp_a_autonomos = 0.00;
-    double imp_bienes_personales = 0.00;
-    double imp_ganancias = 0.00;
-    double imp_iva = 0.00;
-
+    // Ejecutamos el procedimiento de menu
+    menu();
 
   }
 }
