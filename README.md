@@ -1,1 +1,1 @@
-# PROGI-1C2022
+# Resolución del parcial 2
